@@ -2,6 +2,8 @@ const sprites = new Image();
 sprites.src = "./sprites.png";
 
 let frames = 0;
+const pulo = new Audio();
+pulo.src = "./efeitos/pulo.wav";
 const hitSom = new Audio();
 hitSom.src = "./efeitos/hit.wav";
 
@@ -100,6 +102,7 @@ function criarFlappyBird() {
     y: 50,
     pulo: 4.6,
     pular() {
+      pulo.play();
       this.velocidade = -this.pulo;
     },
     gravidade: 0.25,
