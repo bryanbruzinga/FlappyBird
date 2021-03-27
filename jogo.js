@@ -18,8 +18,6 @@ caiuSom.src = "./efeitos/caiu.wav";
 const canvas = document.querySelector("canvas");
 const contexto = canvas.getContext("2d");
 
-const melhorScore = 0;
-
 // [Plano de Fundo]
 const planoDeFundo = {
   spriteX: 390,
@@ -157,9 +155,7 @@ function criarFlappyBird() {
     atualiza() {
       if (fazColisao(this, globais.chao)) {
         hitSom.play();
-
         mudarDeTela(telas.gameOver);
-
         return;
       }
       this.velocidade = this.velocidade + this.gravidade;
@@ -353,11 +349,11 @@ function criarCanos() {
 function criarPlacar() {
   const placar = {
     pontuacao: 0,
+    maiorScore: window.localStorage.getItem("ponto") || 0,
     desenha() {
-      contexto.font = "35px 'VT323'";
-      contexto.textAlign = "right";
+      contexto.font = "50px 'VT323'";
       contexto.fillStyle = "white";
-      contexto.fillText(`${this.pontuacao}`, canvas.width - 10, 35);
+      contexto.fillText(`${this.pontuacao}`, 150, 50);
       this.pontuacao;
     },
     atualiza() {
@@ -370,10 +366,33 @@ function criarPlacar() {
     ganhouPonto() {
       pointSom.play();
       this.pontuacao += 1;
+      this.regitrarMaiorPonto();
+    },
+    regitrarMaiorPonto() {
+      if (this.pontuacao > this.maiorScore) {
+        this.maiorScore = this.pontuacao;
+        window.localStorage.setItem("ponto", this.maiorScore);
+      }
     },
   };
   return placar;
 }
+
+const score = {
+  desenha() {
+    contexto.font = "30px 'VT323'";
+    contexto.fillStyle = "white";
+    contexto.fillText(`${globais.placar.pontuacao}`, 230, 195);
+  },
+};
+
+const bestScore = {
+  desenha() {
+    contexto.font = "30px 'VT323'";
+    contexto.fillStyle = "white";
+    contexto.fillText(`${globais.placar.maiorScore}`, 230, 240);
+  },
+};
 
 // Telas
 const globais = {};
@@ -434,6 +453,8 @@ telas.gameOver = {
   desenha() {
     mensagemGameOver.desenha();
     medalhas.decidirMedalha();
+    score.desenha();
+    bestScore.desenha();
   },
   atualiza() {},
 
