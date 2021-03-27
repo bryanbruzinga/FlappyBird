@@ -2,10 +2,18 @@ const sprites = new Image();
 sprites.src = "./sprites.png";
 
 let frames = 0;
+
 const pulo = new Audio();
 pulo.src = "./efeitos/pulo.wav";
+
 const hitSom = new Audio();
 hitSom.src = "./efeitos/hit.wav";
+
+const pointSom = new Audio();
+pointSom.src = "./efeitos/ponto.wav";
+
+const caiuSom = new Audio();
+caiuSom.src = "./efeitos/caiu.wav";
 
 const canvas = document.querySelector("canvas");
 const contexto = canvas.getContext("2d");
@@ -169,7 +177,7 @@ const mensagemGetReady = {
   w: 174,
   h: 152,
   x: canvas.width / 2 - 174 / 2,
-  y: 50,
+  y: 130,
   desenha() {
     contexto.drawImage(
       sprites,
@@ -191,7 +199,7 @@ const mensagemGameOver = {
   w: 226,
   h: 200,
   x: canvas.width / 2 - 226 / 2,
-  y: 50,
+  y: 100,
   desenha() {
     contexto.drawImage(
       sprites,
@@ -314,12 +322,18 @@ function criarPlacar() {
       this.pontuacao;
     },
     atualiza() {
-      const intervaloDeFrames = 100;
-      const passouOIntervalo = frames % intervaloDeFrames === 0;
-
-      if (passouOIntervalo) {
-        this.pontuacao += 1;
-      }
+      const distanciaFlappyBirdDaParede = 43;
+      const distaciaCanosParaFlappyBird = globais.canos.pares.forEach(
+        (item) => {
+          if (item.x < -49) {
+            this.ganhouPonto();
+          }
+        }
+      );
+    },
+    ganhouPonto() {
+      this.pontuacao += 1;
+      pointSom.play();
     },
   };
   return placar;
@@ -388,6 +402,7 @@ telas.gameOver = {
 
   click() {
     mudarDeTela(telas.inicio);
+    caiuSom.play();
   },
 };
 
