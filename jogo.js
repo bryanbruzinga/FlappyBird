@@ -148,7 +148,9 @@ function criarFlappyBird() {
     pulo: 4.6,
     pular() {
       pulo.play();
-      this.velocidade = -this.pulo;
+      if (this.y > 20) {
+        this.velocidade = -this.pulo;
+      }
     },
     gravidade: 0.25,
     velocidade: 0,

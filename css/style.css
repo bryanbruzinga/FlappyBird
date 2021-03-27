@@ -1,12 +1,34 @@
+a {
+  text-decoration: none;
+  color: #8dc63f;
+  transition: .3s;
+}
 body {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(0deg, rgba(254,251,214,1) 0%, rgba(141,198,63,1) 74%);
+    overflow: hidden;
   }
   canvas {
     border: 1px solid #000;
     display: block;
     margin: 0 auto;
     border-radius: 4px;
+  }
+
+  .logo {
+    width: 20rem;
+    margin-bottom: 1rem;
+  }
+
+  a:hover {
+    color: #63a804;
+  }
+
+  footer {
+    font-family: 'VT323', sans-serif;
+    font-size: 1.3rem;
   }
