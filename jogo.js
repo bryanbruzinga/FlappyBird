@@ -18,6 +18,8 @@ caiuSom.src = "./efeitos/caiu.wav";
 const canvas = document.querySelector("canvas");
 const contexto = canvas.getContext("2d");
 
+const melhorScore = 0;
+
 // [Plano de Fundo]
 const planoDeFundo = {
   spriteX: 390,
@@ -99,6 +101,43 @@ function criarChao() {
   };
   return chao;
 }
+
+const medalhas = {
+  w: 45,
+  h: 45,
+  x: canvas.width / 2 - 174 / 2,
+  y: 185,
+  medalha: [
+    { spriteX: 0, spriteY: 79 },
+    { spriteX: 47, spriteY: 79 },
+    { spriteX: 0, spriteY: 123 },
+    { spriteX: 47, spriteY: 123 },
+  ],
+  desenha({ spriteX, spriteY }) {
+    contexto.drawImage(
+      sprites,
+      spriteX,
+      spriteY,
+      this.w,
+      this.h,
+      this.x,
+      this.y,
+      this.w,
+      this.h
+    );
+  },
+  decidirMedalha() {
+    if (globais.placar.pontuacao < 2) {
+      this.desenha(this.medalha[3]);
+    } else if (globais.placar.pontuacao < 8) {
+      this.desenha(this.medalha[2]);
+    } else if (globais.placar.pontuacao < 15) {
+      this.desenha(this.medalha[1]);
+    } else {
+      this.desenha(this.medalha[0]);
+    }
+  },
+};
 
 function criarFlappyBird() {
   const flappyBird = {
@@ -322,18 +361,15 @@ function criarPlacar() {
       this.pontuacao;
     },
     atualiza() {
-      const distanciaFlappyBirdDaParede = 43;
-      const distaciaCanosParaFlappyBird = globais.canos.pares.forEach(
-        (item) => {
-          if (item.x < -49) {
-            this.ganhouPonto();
-          }
+      globais.canos.pares.forEach((item) => {
+        if (item.x < -49) {
+          this.ganhouPonto();
         }
-      );
+      });
     },
     ganhouPonto() {
-      this.pontuacao += 1;
       pointSom.play();
+      this.pontuacao += 1;
     },
   };
   return placar;
@@ -397,6 +433,7 @@ telas.jogo = {
 telas.gameOver = {
   desenha() {
     mensagemGameOver.desenha();
+    medalhas.decidirMedalha();
   },
   atualiza() {},
 
