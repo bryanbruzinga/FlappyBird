@@ -125,11 +125,11 @@ const medalhas = {
     );
   },
   decidirMedalha() {
-    if (globais.placar.pontuacao < 2) {
+    if (globais.placar.pontuacao <= 3) {
       this.desenha(this.medalha[3]);
-    } else if (globais.placar.pontuacao < 8) {
+    } else if (globais.placar.pontuacao <= 8) {
       this.desenha(this.medalha[2]);
-    } else if (globais.placar.pontuacao < 15) {
+    } else if (globais.placar.pontuacao <= 15) {
       this.desenha(this.medalha[1]);
     } else {
       this.desenha(this.medalha[0]);
